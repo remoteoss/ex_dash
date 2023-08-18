@@ -8,6 +8,8 @@ defmodule Mix.Tasks.Docs.Dash do
 
   alias Mix.Tasks.Docs
   alias ExDash.Store
+  
+  @requirements ["compile"]
 
   @type args :: [binary]
 

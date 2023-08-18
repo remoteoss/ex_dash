@@ -5,7 +5,6 @@ defmodule ExDash.Docset do
   """
 
   alias ExDash.Docset.SQLite
-  alias ExDoc.Formatter.HTML.Autolink
   alias ExDash.Store
 
   @doc """
@@ -62,8 +61,7 @@ defmodule ExDash.Docset do
   defp build_sqlite_db(project_nodes, config, database_path) do
     SQLite.create_index(database_path)
 
-    Autolink.all(project_nodes, ".html", config.deps)
-    |> Enum.map(&index_node(&1, database_path))
+    Enum.map(project_nodes, &index_node(&1, database_path))
   end
 
   defp index_node(node, database) do
@@ -80,9 +78,9 @@ defmodule ExDash.Docset do
   defp index_sub_node(%ExDoc.FunctionNode{} = node, module, database) do
     type =
       case node.type do
-        :def -> "Function"
-        :defmacro -> "Macro"
-        :defcallback -> "Callback"
+        :function -> "Function"
+        :macro -> "Macro"
+        :callback -> "Callback"
         _ -> "Record"
       end
 
